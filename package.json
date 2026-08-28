@@ -1,0 +1,37 @@
+{
+  "name": "gravity-claw",
+  "version": "0.1.0",
+  "description": "A lean, secure, local-first personal AI agent built with TypeScript, grammY, and OpenRouter",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "ai-agent",
+    "telegram-bot",
+    "openrouter",
+    "claude",
+    "grammy",
+    "local-first"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "better-sqlite3": "^13.0.3",
+    "dotenv": "^16.4.7",
+    "grammy": "^1.35.0",
+    "openai": "^7.8.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^22.13.5",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}
