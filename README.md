@@ -1,11 +1,11 @@
-# 🦞 Gravity Claw
+# Gravity Claw
 
 > **A lean, secure, local-first personal AI agent built from scratch.**  
 > Inspired by OpenClaw, redesigned with security-by-default, Telegram long-polling, and OpenRouter multi-model tool calling.
 
 ---
 
-## 🔒 Security Principles (Non-Negotiable)
+## Security Principles (Non-Negotiable)
 
 1. **User ID Whitelist**: Only authorized Telegram user IDs can interact. All unauthorized incoming updates are silently dropped without response.
 2. **No Web Server / No Open Ports**: Operates strictly via Telegram long-polling (`bot.start()`). No ports are exposed to the local network or internet.
@@ -15,7 +15,7 @@
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 .
@@ -49,7 +49,7 @@
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 - **Node.js**: v18.0.0 or higher
@@ -101,29 +101,8 @@ npm run build
 npm run start
 ```
 
----
 
-## 🗺️ Build Roadmap
 
-- [x] **Level 1 — Foundation**
-  - Telegram bot + OpenRouter LLM + Autonomous agentic loop
-  - Whitelist security & Long-polling
-  - Built-in tool: `get_current_time`
-- [x] **Level 2 — Memory**
-  - Persistent SQLite storage + FTS5 full-text search
-  - Episodic & semantic memory tools
-- [ ] **Level 3 — Voice** (Skipped for now)
-- [x] **Level 4 — Tools & MCP Bridge** *(Current)*
-  - Tools + MCP bridge (shell, files, external services)
-  - Auditable file & shell operations with confirmation safeguards
-  - Whisper transcription for Telegram voice notes
-  - ElevenLabs text-to-speech audio responses
-- [x] **Level 5 — Heartbeat**
-  - Proactive briefings and check-ins (cron/interval based)
-  - Memory summarization passes
-
----
-
-## 🛡️ License
+## License
 
 MIT
