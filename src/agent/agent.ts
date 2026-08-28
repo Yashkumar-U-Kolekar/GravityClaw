@@ -142,8 +142,15 @@ export class Agent {
 
     // 2. Save episodic memory for this turn
     try {
-      db.addEpisodicMessage({ user_id: context.userId, role: 'user', content: userQuery });
-      db.addEpisodicMessage({ user_id: context.userId, role: 'assistant', content: responseText });
+      // Don't save the internal system event trigger as a user query
+      if (!userQuery.startsWith('[SYSTEM EVENT]')) {
+        db.addEpisodicMessage({ user_id: context.userId, role: 'user', content: userQuery });
+      }
+      
+      // If the agent responded with NO_UPDATE to a system event, don't save the response either
+      if (!(userQuery.startsWith('[SYSTEM EVENT]') && responseText === 'NO_UPDATE')) {
+        db.addEpisodicMessage({ user_id: context.userId, role: 'assistant', content: responseText });
+      }
     } catch (err) {
       logger.error('Failed to save episodic memory:', err);
     }

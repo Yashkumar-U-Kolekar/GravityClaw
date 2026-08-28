@@ -73,6 +73,7 @@ TELEGRAM_ALLOWED_USER_IDS=your_user_id_here
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
 MAX_AGENT_ITERATIONS=10
+HEARTBEAT_INTERVAL_MINUTES=60
 LOG_LEVEL=info
 ```
 
@@ -117,7 +118,7 @@ npm run start
   - Auditable file & shell operations with confirmation safeguards
   - Whisper transcription for Telegram voice notes
   - ElevenLabs text-to-speech audio responses
-- [ ] **Level 5 — Heartbeat**
+- [x] **Level 5 — Heartbeat**
   - Proactive briefings and check-ins (cron/interval based)
   - Memory summarization passes
 

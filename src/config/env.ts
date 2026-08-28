@@ -42,6 +42,14 @@ const envSchema = z.object({
     .enum(['debug', 'info', 'warn', 'error'])
     .optional()
     .default('info'),
+  HEARTBEAT_INTERVAL_MINUTES: z
+    .string()
+    .optional()
+    .default('60')
+    .transform((val) => {
+      const num = parseInt(val, 10);
+      return isNaN(num) || num <= 0 ? 60 : num;
+    }),
 });
 
 export type EnvConfig = {
@@ -51,6 +59,7 @@ export type EnvConfig = {
   openrouterModel: string;
   maxAgentIterations: number;
   logLevel: 'debug' | 'info' | 'warn' | 'error';
+  heartbeatIntervalMinutes: number;
 };
 
 export function loadConfig(): EnvConfig {
@@ -77,5 +86,6 @@ export function loadConfig(): EnvConfig {
     openrouterModel: data.OPENROUTER_MODEL,
     maxAgentIterations: data.MAX_AGENT_ITERATIONS,
     logLevel: data.LOG_LEVEL,
+    heartbeatIntervalMinutes: data.HEARTBEAT_INTERVAL_MINUTES,
   };
 }

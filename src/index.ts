@@ -6,6 +6,7 @@ import { saveMemoryTool } from './tools/builtins/saveMemory.js';
 import { searchMemoryTool } from './tools/builtins/searchMemory.js';
 import { McpBridge } from './mcp/bridge.js';
 import { Agent } from './agent/agent.js';
+import { HeartbeatManager } from './agent/heartbeat.js';
 import { createTelegramBot } from './bot/telegram.js';
 import { db } from './memory/db.js';
 
@@ -19,7 +20,7 @@ async function bootstrap() {
     \\____|_|  \\__,_| \\_/ |_|\\__|\\__, | \\____|_|\\__,_| \\_/\\_/   
                                 |___/                          
   ======================================================
-  [Level 4: MCP Bridge - Local Tool Extensions]
+  [Level 5: Heartbeat - Proactive Autonomous Agent]
   `);
 
   // 1. Load and validate environment configuration
@@ -53,13 +54,17 @@ async function bootstrap() {
   // 5. Initialize Telegram Bot with Long Polling (No open ports)
   const bot = createTelegramBot(config, agent, toolRegistry);
 
-  // 6. Handle Graceful Shutdown
+  // 6. Initialize Heartbeat Manager
+  const heartbeatManager = new HeartbeatManager(bot, agent, config.allowedUserIds, config.heartbeatIntervalMinutes);
+
+  // 7. Handle Graceful Shutdown
   let isShuttingDown = false;
   const shutdown = async (signal: string) => {
     if (isShuttingDown) return;
     isShuttingDown = true;
     logger.info(`Received ${signal}. Shutting down Gravity Claw gracefully...`);
     try {
+      heartbeatManager.stop();
       await bot.stop();
       logger.info('Telegram polling stopped.');
       await mcpBridge.closeAll();
@@ -74,11 +79,13 @@ async function bootstrap() {
   process.once('SIGINT', () => shutdown('SIGINT'));
   process.once('SIGTERM', () => shutdown('SIGTERM'));
 
-  // 7. Start Bot via Long-Polling
+  // 8. Start Bot via Long-Polling
   logger.info('Connecting to Telegram via long-polling (no web server exposed)...');
   await bot.start({
     onStart: (botInfo) => {
       logger.info(`Gravity Claw bot @${botInfo.username} is now online and listening for messages.`);
+      // Start proactive heartbeat after bot successfully connects
+      heartbeatManager.start();
     },
   });
 }
